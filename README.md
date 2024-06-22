@@ -1,4 +1,4 @@
-#Prerequisits
+# Prerequisits
 - ttkthemes
 - tkinter
 install using pip
