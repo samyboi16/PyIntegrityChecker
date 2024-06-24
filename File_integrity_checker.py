@@ -109,6 +109,23 @@ class File_Integrity_Checker_Tool:
             # Calulate the SHA-256 Hash value for the chosen file
             hash_value = hashlib.sha256(file_contents).hexdigest()
 
+            #############################################
+            user_home = os.path.expanduser('~')
+
+            baseline_dir = os.path.join(user_home, 'baseline')
+
+            if not os.path.exists(baseline_dir):
+                os.makedirs(baseline_dir)
+
+            filename=os.path.basename(self.filelocation)
+            hash_file_path =os.path.join(baseline_dir,filename)
+            
+            if not os.path.exists(hash_file_path):
+                with open(hash_file_path, 'w') as hash_file:
+                    hash_file.write(hash_value)
+            
+            ###############################################
+            
             # Print the hash value in the SHA-256 Hash field
             self.hash_value.config(state = 'normal')
             self.hash_value.delete(0, tk.END)
@@ -219,10 +236,17 @@ class File_Integrity_Checker_Tool:
 
 
     def compare_the_two_hashes(self):
-        first_hash = self.file_hash1_value.get()
-        second_hash = self.file_hash2_value.get()
+        #compare the hash from check integrity to the saved 
+        #hash of the current one 
+        with open(self.filelocation,'rb') as f:
+            current_filecontents=f.read()
+        
+        hash_value = hashlib.sha256(current_filecontents).hexdigest()
+        #reading the saved  one
+        with open(hash_file_path, 'r') as hash_file:
+            stored_hash=hash_file.read()
 
-        if first_hash == second_hash:
+        if stored_hash== hash_value:
             messagebox.showinfo("Results of Comparison", "File has not been tampered \U0001F44D")
         else:
             messagebox.showwarning("Comparison Result", "Alert!!! File has been tampered \U0001F480")
