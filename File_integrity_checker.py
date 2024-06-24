@@ -1,29 +1,26 @@
 # Tkinter imports
 import tkinter as tk
 from tkinter import Entry, messagebox, simpledialog, filedialog
-
+from tkinter import ttk
 # Import Sha-256
 import hashlib
-
+import os
 # import AES-encryption
-from Crypto.Cipher import AES
-from Crypto.Random import get_random_bytes
+#from Crypto.Cipher import AES
+#from Crypto.Random import get_random_bytes
 
 # adding salt to the password
-from Crypto.Protocol.KDF import scrypt
-from Crypto.Util.Padding import unpad, pad
+#from Crypto.Protocol.KDF import scrypt
+#from Crypto.Util.Padding import unpad, pad
 
 
 class File_Integrity_Checker_Tool:
     def __init__(self, fict): # fict = File Integrity Checker Tool
         self.fict = fict
         self.fict.title("File Integerity Checker Tool \U0001F680 \U0001F680 \U0001F680")
-
         self.interface()
 
     def interface(self):
-
-
 
         # This button will be used to select the file
         self.choose_file_button = tk.Button(self.fict, text = "CHOOSE THE FILE", command = self.choose_file)
@@ -54,23 +51,15 @@ class File_Integrity_Checker_Tool:
         self.hash_value = Entry(self.fict, width = 80)
         self.hash_value.pack(pady = 5)
 
+        #Loading screen
+        self.loading_screen = tk.Frame(self.fict)
+        self.loading_label = tk.Label(self.loading_screen, text="Loading, please wait...")
+        self.loading_label.pack(pady=20)
+        
+        self.progress = ttk.Progressbar(self.loading_screen, orient='horizontal', mode='determinate', length=280)
+        self.progress.pack(pady=10)
 
-        # Text fields to paste the hash for comparison of two files 
- 
-        # File 1
-        self.file_hash1 = tk.Label(self.fict, text = "File 1 SHA-256 Hash value")
-        self.file_hash1.pack()
-
-        self.file_hash1_value = Entry(self.fict, width = 80)
-        self.file_hash1_value.pack(pady = 5)
-
-        # File 2
-        self.file_hash2 = tk.Label(self.fict, text = "File 2 SHA-256 Hash value")
-        self.file_hash2.pack()
-
-        self.file_hash2_value = Entry(self.fict, width = 80)
-        self.file_hash2_value.pack(pady = 5)
-
+       
         # This is the comparison button to compare the hashes
         self.comparison_hash = tk.Button(self.fict, text = "Compare the two hashes", command = self.compare_the_two_hashes)
         self.comparison_hash.pack(pady = 10)
@@ -100,6 +89,8 @@ class File_Integrity_Checker_Tool:
             self.hash_value.config(state = 'readonly')    
     
     def check_integrity(self):
+        global hash_file_path
+        global file_contents
         if not hasattr(self, 'filelocation') or not self.filelocation:
             messagebox.showerror("Error", "You have not selected a file")
             return
@@ -110,18 +101,31 @@ class File_Integrity_Checker_Tool:
 
             # Calulate the SHA-256 Hash value for the chosen file
             hash_value = hashlib.sha256(file_contents).hexdigest()
+            #############################################
 
+            if not os.path.exists('C:\\Users\\SoyboyWin\\baseline'):
+                os.makedirs('C:\\Users\\SoyboyWin\\baseline')
+
+            filename=os.path.basename(self.filelocation)
+            hash_file_path =os.path.abspath(f'C:\\Users\\SoyboyWin\\baseline\\{filename}.hash')
+            with open(hash_file_path, 'w') as hash_file:
+               hash_file.write(hash_value)
+            
+            ###############################################
+
+            
             # Print the hash value in the SHA-256 Hash field
             self.hash_value.config(state = 'normal')
             self.hash_value.delete(0, tk.END)
             self.hash_value.insert(0, hash_value)
             self.hash_value.config(state = 'normal')
-
+            '''
             # text_file_location = "C:/Users/user/Desktop/sample/hash.txt"
             # with open(text_file_location, 'wb') as f:
             #     f.write(self.hash_value)
 
             # messagebox.showinfo("Hash", f"The hash in a text file saved as : \n{text_file_location}")
+             '''
 
             # This is the method to encrypt and decrypt the chosen file
             if self.encrypt_file.get():
@@ -206,14 +210,26 @@ class File_Integrity_Checker_Tool:
 
 
     def compare_the_two_hashes(self):
+        
+        #compare the hash from check integrity to the saved 
+        #hash of the current one 
+        hash_value = hashlib.sha256(file_contents).hexdigest()
+        #reading the saved  one
+        with open(hash_file_path, 'r') as hash_file:
+            current_hash=hash_file.read()
+        if current_hash== hash_value:
+            messagebox.showinfo("Results of Comparison", "File has not been tampered \U0001F44D")
+        else:
+            messagebox.showwarning("Comparison Result", "Alert!!! File has been tampered \U0001F480")
+        '''
         first_hash = self.file_hash1_value.get()
         second_hash = self.file_hash2_value.get()
-
+        
         if first_hash == second_hash:
             messagebox.showinfo("Results of Comparison", "File has not been tampered \U0001F44D")
         else:
             messagebox.showwarning("Comparison Result", "Alert!!! File has been tampered \U0001F480")
-
+        '''
     def clear_the_hashes(self):
         self.file_hash1_value.delete(0, tk.END)
         self.file_hash2_value.delete(0, tk.END)
@@ -221,8 +237,6 @@ class File_Integrity_Checker_Tool:
 
     def clear_hash_of_the_file(self):
         self.hash_value.delete(0, tk.END)
-
-
 
 
 if __name__ == "__main__":
