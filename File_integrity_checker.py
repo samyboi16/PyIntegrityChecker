@@ -2,9 +2,11 @@
 import tkinter as tk
 from tkinter import Entry, messagebox, simpledialog, filedialog
 from tkinter import ttk
+
 # Import Sha-256
 import hashlib
 import os
+
 # import AES-encryption
 from Crypto.Cipher import AES
 from Crypto.Random import get_random_bytes
@@ -201,6 +203,9 @@ class File_Integrity_Checker_Tool:
             
             messagebox.showinfo("Decryption", f"File is decrypted and saved as : \n{decrypted_file_location}")
 
+        except ValueError as VE:
+            messagebox.showerror("Error", "Password is incorrect, Please try again!")
+
         except Exception as e:
             messagebox.showinfo("Error", f"Error in decrypting the chosen file : {str(e)}")
 
@@ -236,6 +241,9 @@ if __name__ == "__main__":
     fict = tk.Tk()
     app = File_Integrity_Checker_Tool(fict)
     fict.mainloop()
+
+
+
 
 
 
