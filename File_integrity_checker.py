@@ -40,6 +40,10 @@ class File_Integrity_Checker_Tool:
         self.decrypt_file_button = tk.Button(self.fict, text = "Decrypt the chosen file with AES-128", command = self.decrypted_file)
         self.decrypt_file_button.pack(pady = 5)
 
+        # Color of the Status label
+        self.color_status_label = tk.Label(self.fict, text = "", fg = "green")
+        self.color_status_label.pack(pady = 10)
+
         # Print the Hash into the Text Field
         self.hash_of_the_file = tk.Label(self.fict, text = "SHA-256 Hash")
         self.hash_of_the_file.pack()
@@ -48,7 +52,7 @@ class File_Integrity_Checker_Tool:
         self.hash_value.pack(pady = 5)
         
         #update baseline
-        self.update_baseline_button = tk.Button(self.fict, text="Update ", command=self.update_hash_filex)
+        self.update_baseline_button = tk.Button(self.fict, text="Update ", command=self.update_hash_file)
         self.update_baseline_button.pack(pady=10)
         
         # This is the comparison button to compare the hashes
@@ -232,12 +236,6 @@ if __name__ == "__main__":
     fict = tk.Tk()
     app = File_Integrity_Checker_Tool(fict)
     fict.mainloop()
-
-
-
-
-
-
 
 
 
