@@ -30,15 +30,15 @@ class File_Integrity_Checker_Tool:
         self.check_integrity_button = tk.Button(self.fict, text = "COMPUTE THE HASH", command = self.check_integrity)
         self.check_integrity_button.pack(pady = 5)
 
-        # This is the checkbox for encrypting the chosen file
+        # This is the button for encrypting the chosen file
         self.encrypt_file = tk.IntVar()
-        self.encrypt_file_checkbox = tk.Checkbutton(self.fict, text = "Encrypt the chosen file with AES-128", variable = self.encrypt_file)
-        self.encrypt_file_checkbox.pack(pady = 5)
+        self.encrypt_file_button = tk.Button(self.fict, text = "Encrypt the chosen file with AES-128", command = self.encrypted_file)
+        self.encrypt_file_button.pack(pady = 5)
 
-        # This is the checkbox for decrypting the chosen file
+        # This is the button for decrypting the chosen file
         self.decrypt_file = tk.IntVar()
-        self.decrypt_file_checkbox = tk.Checkbutton(self.fict, text = "Decrypt the chosen file with AES-128", variable = self.decrypt_file)
-        self.decrypt_file_checkbox.pack(pady = 5)
+        self.decrypt_file_button = tk.Button(self.fict, text = "Decrypt the chosen file with AES-128", command = self.decrypted_file)
+        self.decrypt_file_button.pack(pady = 5)
 
         # Print the Hash into the Text Field
         self.hash_of_the_file = tk.Label(self.fict, text = "SHA-256 Hash")
@@ -114,9 +114,17 @@ class File_Integrity_Checker_Tool:
         except Exception as e:
             messagebox.showerror("Error", f"Issue in checking integrity : {str(e)}")
     
-    def encrypted_file(self, contents):
+    def encrypted_file(self):
+
+        if not hasattr(self, 'filelocation') or not self.filelocation:
+            messagebox.showerror("Error", "You have not selected a file")
+            return
 
         try:
+            with open(self.filelocation, 'rb') as f:
+                contents_of_file = f.read()
+
+
             # Here we will generate the AES key and the Initialization Vector in the below sequence
 
             # Here we will take the password as input from the user
@@ -134,7 +142,7 @@ class File_Integrity_Checker_Tool:
             IV = get_random_bytes(AES.block_size)
 
             # Now the content will be padded and then encrypted
-            contents_padded = pad(contents, AES.block_size)
+            contents_padded = pad(contents_of_file, AES.block_size)
 
 
             # This is top encrypt the contents
@@ -151,9 +159,15 @@ class File_Integrity_Checker_Tool:
         except Exception as e:
             messagebox.showerror("Error", f"Error in encrypting the chosen file : {str(e)}")
 
-    def decrypted_file(self, contents):
+    def decrypted_file(self):
+
+        if not hasattr(self, 'filelocation') or not self.filelocation:
+            messagebox.showerror("Error", "You have not selected a file")
+            return
         
         try:
+            with open(self.filelocation, 'rb') as f:
+                contents = f.read()
             # Now we will generate the AES key and Initialization Vector
             password = simpledialog.askstring("Password", "Enter your decryption password : ")
 
@@ -185,6 +199,8 @@ class File_Integrity_Checker_Tool:
 
         except Exception as e:
             messagebox.showinfo("Error", f"Error in decrypting the chosen file : {str(e)}")
+
+
 
 
     def compare_the_two_hashes(self):
