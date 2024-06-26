@@ -16,6 +16,12 @@ Before running the Python program, ensure you have the following programs and pa
   pip install pycryptodome
   ```  
 # Installation
+
+
+https://github.com/samyboi16/PyIntegrityChecker/assets/95954618/8db316d3-447c-40df-b0e7-ab296420bb97
+
+
+
 1. Clone the repository to your system
 ```
 git clone https://github.com/samyboi16/PyIntegrityChecker.git
