@@ -19,7 +19,7 @@ from Crypto.Util.Padding import unpad, pad
 class File_Integrity_Checker_Tool:
     def __init__(self, fict): # fict = File Integrity Checker Tool
         self.fict = fict
-        self.fict.title("File Integerity Checker Tool \U0001F680 \U0001F680 \U0001F680")
+        self.fict.title("File Integrity Checker Tool \U0001F680 \U0001F680 \U0001F680")
         self.interface()
 
     def interface(self):
