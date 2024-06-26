@@ -25,7 +25,11 @@ git clone https://github.com/samyboi16/PyIntegrityChecker.git
 ```
 cd PyIntegrityChecker
 ```
-3. Run the program
+3. Install the dependencies
+```
+pip install -r requirements.txt
+```
+4. Run the program
 ```
 python3 ./File_integrity_checker.py
 ```
