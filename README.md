@@ -2,8 +2,7 @@
 This tool is designed to help users verify the integrity of their files using the SHA-256 hash algorithm. It also includes encryption and decryption functionality for an added layer of security, all within an intuitive and user-friendly interface written in Python.
 
 # Requirements
-Before running the Python program, ensure you have the following programs and packages installed:
-- Operating system: Windows
+Before running the Python program, ensure you have the following programs and packages installed:  
 - Python 3.6 or greater installed
   ```
   python --version
