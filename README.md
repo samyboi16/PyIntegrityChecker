@@ -57,16 +57,16 @@ To compare the hashes, One computed of our selected file and another of previous
 ### Step 4: Updating the Hashes
 When you have made changes to your files, choose the file, compute the new hash and then click on `Update`. This will replace the old hash of the file with the new computed hash.
 
-### Additional Features
+## Additional Features
 An additional feature of our Python tool is the capability to encrypt and decrypt files using the advanced AES-128 encryption standard. This feature ensures that your data is securely protected, making it inaccessible to unauthorized users.
 
-#### Encryption
+### Encryption
 Select the file you want to encrypt using `CHOOSE THE FILE`, And then click on `Encrypt the chosen file with AES-128`. This will prompt you with a password.
 
   ![image](https://github.com/samyboi16/PyIntegrityChecker/assets/95954618/1449a27e-fb13-478e-a81c-0e2657cbe641)
 
 Your file is now securely encrypted in the same folder.
-#### Decryption
+### Decryption
 To Decrypt your file, select the encrypted file and then click on `Decrypt the chosen file with AES-128`. this will prompt you with a password.
 
 ![image](https://github.com/samyboi16/PyIntegrityChecker/assets/95954618/6d3ee3b1-af0b-4a59-80ee-32a7a0253e11)
