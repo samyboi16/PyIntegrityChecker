@@ -8,13 +8,7 @@ Before running the Python program, ensure you have the following programs and pa
   python --version
   ```  
 - tkinter
-  ```
-  pip install tk
-  ```  
 - PyCryptodome
-  ```
-  pip install pycryptodome
-  ```  
 # Installation
 
 
